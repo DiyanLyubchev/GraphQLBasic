@@ -1,0 +1,5 @@
+query{
+   cars (where:{ id: {   ngte : 4 }  } order: { id : DESC} )  {
+     id carModel carBrand
+   }
+}
