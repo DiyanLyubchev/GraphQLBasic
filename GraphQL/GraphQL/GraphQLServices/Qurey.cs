@@ -4,7 +4,7 @@ using HotChocolate;
 using HotChocolate.Data;
 using System.Linq;
 
-namespace GraphQL.Model
+namespace GraphQL.GraphQLServices
 {
     public class Qurey
     {
@@ -13,6 +13,10 @@ namespace GraphQL.Model
         [UseSorting]
         public IQueryable<GasCarTable> GetCars([Service] GasCarDbContext dbContext)
             => dbContext.GasCars;
+
+
+        public GasCarTable GetCar([Service] GasCarDbContext dbContext, int id)
+            => dbContext.GasCars.FirstOrDefault(x => x.Id == id);
 
     }
 }

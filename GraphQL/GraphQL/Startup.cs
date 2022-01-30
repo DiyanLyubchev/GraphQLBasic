@@ -1,6 +1,9 @@
 using GraphQL.Db.Context;
 using GraphQL.DbManager;
+using GraphQL.GraphQLServices;
 using GraphQL.Model;
+using GraphQL.Server.Ui.Voyager;
+using HotChocolate.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -23,9 +26,15 @@ namespace GraphQL
         {
             services.AddGraphQLServer()
                    .AddQueryType<Qurey>()
+                   .AddMutationType<Mutation>()
+                   .AddType<CarInput>()
+                   .AddType<CarInputType>()
                    .AddProjections()
                    .AddFiltering()
-                   .AddSorting();
+                   .AddSorting()
+                   .AddInMemorySubscriptions();
+
+            services.AddScoped<Mutation>();
 
             string conectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<GasCarDbContext>(options =>
@@ -50,12 +59,22 @@ namespace GraphQL
             app.UseRouting();
 
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapGraphQL("/graphql");
+                endpoints.MapGraphQL();
             });
+
+            app.UseGraphQLVoyager(new GraphQLVoyagerOptions()
+            {
+                GraphQLEndPoint = "/graphql",
+                Path = "/graphql-voyager"
+            });
+
+            //app.ApplicationServices
+            //   .CreateScope()
+            //   .ServiceProvider
+            //   .GetService<GasCarDbContext>();
         }
     }
 }

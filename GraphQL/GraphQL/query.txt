@@ -3,3 +3,24 @@ query{
      id carModel carBrand
    }
 }
+
+-----------------------------------------------------------------------
+query{
+   car( id: 2)
+   {id carBrand carModel}
+}
+
+-----------------------------------------------------------------------
+mutation{
+
+    addCar (input:  { carModel: "peugeot", carBrand: "208"}){
+          carModel carBrand 
+    }
+}
+
+mutation{
+
+    addCar (input:  { carModel: "опел", carBrand: "кадет"}){
+          carModel carBrand 
+    }
+}
