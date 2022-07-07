@@ -1,3 +1,6 @@
+link: https://localhost:5001/graphql/
+
+-----------------------------------------------------------------------
 query{
    cars (where:{ id: {   ngte : 4 }  } order: { id : DESC} )  {
      id carModel carBrand
